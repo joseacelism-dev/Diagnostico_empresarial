@@ -27,34 +27,21 @@ const empty: CompanyInfo = {
 
 export default function InfoPage({ onComplete, onBack }: Props) {
   const [info, setInfo] = useState<CompanyInfo>(empty);
-  const [errors, setErrors] = useState<Partial<Record<keyof CompanyInfo, string>>>({});
 
   function set<K extends keyof CompanyInfo>(key: K, val: CompanyInfo[K]) {
     setInfo(prev => ({ ...prev, [key]: val }));
-    setErrors(prev => ({ ...prev, [key]: undefined }));
-  }
-
-  function validate(): boolean {
-    const e: Partial<Record<keyof CompanyInfo, string>> = {};
-    if (!info.nombre.trim()) e.nombre = 'Requerido';
-    if (!info.ciudad.trim()) e.ciudad = 'Requerido';
-    if (!info.antiguedad.trim()) e.antiguedad = 'Requerido';
-    if (!info.empleados.trim()) e.empleados = 'Requerido';
-    if (!info.responsable.trim()) e.responsable = 'Requerido';
-    setErrors(e);
-    return Object.keys(e).length === 0;
   }
 
   function handleSubmit() {
-    if (validate()) onComplete(info);
+    onComplete(info);
   }
 
-  const inputCls = (key: keyof CompanyInfo) =>
-    `w-full px-4 py-3 rounded-lg text-sm border outline-none transition-all ${errors[key] ? 'border-red-400 bg-red-50' : 'border-gray-200 bg-white focus:border-navy-500'}`;
+  const inputCls =
+    'w-full px-4 py-3 rounded-lg text-sm border outline-none transition-all border-gray-200 bg-white focus:border-navy-500';
 
-  const Label = ({ children, required }: { children: React.ReactNode; required?: boolean }) => (
+  const Label = ({ children }: { children: React.ReactNode }) => (
     <label className="block text-xs font-600 uppercase tracking-wide mb-2" style={{ color: '#4B5563', fontFamily: 'var(--font-display)' }}>
-      {children}{required && <span className="text-red-500 ml-1">*</span>}
+      {children}
     </label>
   );
 
@@ -83,38 +70,34 @@ export default function InfoPage({ onComplete, onBack }: Props) {
           <h2 className="font-display font-600 text-lg mb-6" style={{ color: '#0F2449' }}>Datos de la empresa</h2>
           <div className="grid grid-cols-2 gap-5">
             <div className="col-span-2">
-              <Label required>Nombre o razón social</Label>
-              <input className={inputCls('nombre')} value={info.nombre} onChange={e => set('nombre', e.target.value)} placeholder="Ej: Comercializadora ABC S.A.S." />
-              {errors.nombre && <p className="text-xs text-red-500 mt-1">{errors.nombre}</p>}
+              <Label>Nombre o razón social</Label>
+              <input className={inputCls} value={info.nombre} onChange={e => set('nombre', e.target.value)} placeholder="Ej: Comercializadora ABC S.A.S." />
             </div>
             <div>
               <Label>NIT / RUC / RUT</Label>
-              <input className={inputCls('nit')} value={info.nit} onChange={e => set('nit', e.target.value)} placeholder="Número de identificación" />
+              <input className={inputCls} value={info.nit} onChange={e => set('nit', e.target.value)} placeholder="Número de identificación" />
             </div>
             <div>
-              <Label required>Ciudad / Municipio</Label>
-              <input className={inputCls('ciudad')} value={info.ciudad} onChange={e => set('ciudad', e.target.value)} placeholder="Ej: Bogotá, Medellín, Lima" />
-              {errors.ciudad && <p className="text-xs text-red-500 mt-1">{errors.ciudad}</p>}
+              <Label>Ciudad / Municipio</Label>
+              <input className={inputCls} value={info.ciudad} onChange={e => set('ciudad', e.target.value)} placeholder="Ej: Bogotá, Medellín, Lima" />
             </div>
             <div>
-              <Label required>Sector económico</Label>
-              <select className={inputCls('sector')} value={info.sector} onChange={e => set('sector', e.target.value as Sector)}>
+              <Label>Sector económico</Label>
+              <select className={inputCls} value={info.sector} onChange={e => set('sector', e.target.value as Sector)}>
                 {SECTORS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
             <div>
               <Label>Subsector o actividad específica</Label>
-              <input className={inputCls('subsector')} value={info.subsector} onChange={e => set('subsector', e.target.value)} placeholder="Ej: Alimentos, Textil, Logística..." />
+              <input className={inputCls} value={info.subsector} onChange={e => set('subsector', e.target.value)} placeholder="Ej: Alimentos, Textil, Logística..." />
             </div>
             <div>
-              <Label required>Años de operación</Label>
-              <input className={inputCls('antiguedad')} value={info.antiguedad} onChange={e => set('antiguedad', e.target.value)} placeholder="Ej: 5" type="number" min="0" />
-              {errors.antiguedad && <p className="text-xs text-red-500 mt-1">{errors.antiguedad}</p>}
+              <Label>Años de operación</Label>
+              <input className={inputCls} value={info.antiguedad} onChange={e => set('antiguedad', e.target.value)} placeholder="Ej: 5" type="number" min="0" />
             </div>
             <div>
-              <Label required>Número de colaboradores</Label>
-              <input className={inputCls('empleados')} value={info.empleados} onChange={e => set('empleados', e.target.value)} placeholder="Ej: 12" type="number" min="0" />
-              {errors.empleados && <p className="text-xs text-red-500 mt-1">{errors.empleados}</p>}
+              <Label>Número de colaboradores</Label>
+              <input className={inputCls} value={info.empleados} onChange={e => set('empleados', e.target.value)} placeholder="Ej: 12" type="number" min="0" />
             </div>
           </div>
         </section>
@@ -125,7 +108,7 @@ export default function InfoPage({ onComplete, onBack }: Props) {
           <div className="grid grid-cols-2 gap-5">
             <div>
               <Label>Tamaño de la empresa</Label>
-              <select className={inputCls('size')} value={info.size} onChange={e => set('size', e.target.value as CompanySize)}>
+              <select className={inputCls} value={info.size} onChange={e => set('size', e.target.value as CompanySize)}>
                 <option value="micro">Microempresa (hasta 10 empleados)</option>
                 <option value="pequena">Pequeña empresa (11–50 empleados)</option>
                 <option value="mediana">Mediana empresa (51–200 empleados)</option>
@@ -133,7 +116,7 @@ export default function InfoPage({ onComplete, onBack }: Props) {
             </div>
             <div>
               <Label>Mercado principal</Label>
-              <select className={inputCls('mercado')} value={info.mercado} onChange={e => set('mercado', e.target.value as CompanyInfo['mercado'])}>
+              <select className={inputCls} value={info.mercado} onChange={e => set('mercado', e.target.value as CompanyInfo['mercado'])}>
                 <option value="local">Local / Municipal</option>
                 <option value="regional">Regional / Departamental</option>
                 <option value="nacional">Nacional</option>
@@ -211,17 +194,16 @@ export default function InfoPage({ onComplete, onBack }: Props) {
           <h2 className="font-display font-600 text-lg mb-6" style={{ color: '#0F2449' }}>Datos del responsable</h2>
           <div className="grid grid-cols-2 gap-5">
             <div>
-              <Label required>Nombre del responsable</Label>
-              <input className={inputCls('responsable')} value={info.responsable} onChange={e => set('responsable', e.target.value)} placeholder="Nombre completo" />
-              {errors.responsable && <p className="text-xs text-red-500 mt-1">{errors.responsable}</p>}
+              <Label>Nombre del responsable</Label>
+              <input className={inputCls} value={info.responsable} onChange={e => set('responsable', e.target.value)} placeholder="Nombre completo" />
             </div>
             <div>
               <Label>Cargo</Label>
-              <input className={inputCls('cargo')} value={info.cargo} onChange={e => set('cargo', e.target.value)} placeholder="Ej: Gerente General" />
+              <input className={inputCls} value={info.cargo} onChange={e => set('cargo', e.target.value)} placeholder="Ej: Gerente General" />
             </div>
             <div className="col-span-2">
               <Label>Correo electrónico (opcional)</Label>
-              <input className={inputCls('email')} value={info.email} onChange={e => set('email', e.target.value)} placeholder="Para referencia del informe" type="email" />
+              <input className={inputCls} value={info.email} onChange={e => set('email', e.target.value)} placeholder="Para referencia del informe" type="email" />
             </div>
           </div>
         </section>
