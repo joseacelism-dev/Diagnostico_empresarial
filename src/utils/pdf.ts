@@ -17,6 +17,11 @@ function answerLabel(question: Question, score: number): string {
   return RESPONSE_SCALES[question.scale].options.find(o => o.score === score)?.label ?? `${score}/5`;
 }
 
+function fileSafeName(value: string): string {
+  const cleaned = value.trim().replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, '_');
+  return cleaned || 'Empresa';
+}
+
 export async function generatePDF(
   results: DiagnosticResults,
   applicableQs: Question[],
@@ -28,7 +33,7 @@ export async function generatePDF(
   barRef: React.RefObject<HTMLDivElement | null>,
 ) {
   const jsPDF = (await import('jspdf')).default;
-  await import('jspdf-autotable');
+  const { autoTable } = await import('jspdf-autotable');
 
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210, H = 297;
@@ -328,7 +333,7 @@ export async function generatePDF(
     return [ar.areaId, area.name, ar.score.toFixed(2), `N${ar.level}: ${lvl.name}`, String(ar.questionsCount), String(ar.weakQuestions.length)];
   });
 
-  (doc as any).autoTable({
+  autoTable(doc, {
     head: [['Código', 'Área', 'Puntaje', 'Nivel', 'Preguntas', 'Brechas']],
     body: tableBody,
     startY: y,
@@ -376,7 +381,7 @@ export async function generatePDF(
     ];
   });
 
-  (doc as any).autoTable({
+  autoTable(doc, {
     head: [['#', 'Código', 'Área', 'Acción Recomendada', 'Responsable', 'Prioridad', 'Plazo', 'Actual']],
     body: recRows,
     startY: y,
@@ -507,7 +512,7 @@ export async function generatePDF(
   const nLines = doc.splitTextToSize(note, TW - 8);
   doc.text(nLines, ML + 4, y + 17);
 
-  doc.save(`Diagnostico_Madurez_${results.companyInfo.nombre.replace(/\s+/g, '_')}_${new Date().getFullYear()}.pdf`);
+  doc.save(`Diagnostico_Madurez_${fileSafeName(results.companyInfo.nombre)}_${new Date().getFullYear()}.pdf`);
 }
 
 function sectorLabel(sector: string): string {

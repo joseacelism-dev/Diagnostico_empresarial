@@ -103,6 +103,7 @@ export default function DashboardPage({ results, onRestart }: Props) {
   const radarRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const [expandedGap, setExpandedGap] = useState<string | null>(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const applicableQs = ALL_QUESTIONS.filter(q => results.answers[q.id] !== undefined);
   const topRecs = getTopRecommendations(results, applicableQs, 15);
@@ -158,7 +159,16 @@ export default function DashboardPage({ results, onRestart }: Props) {
     .map(ar => ({ name: AREAS.find(a => a.id === ar.areaId)!.shortName, score: ar.score }));
 
   async function handlePDF() {
-    await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef);
+    if (isGeneratingPDF) return;
+    setIsGeneratingPDF(true);
+    try {
+      await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef);
+    } catch (error) {
+      console.error('Error generating PDF', error);
+      window.alert('No se pudo generar el PDF. Intenta nuevamente o revisa si el navegador bloqueó la descarga.');
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   }
 
   return (
@@ -180,11 +190,12 @@ export default function DashboardPage({ results, onRestart }: Props) {
               Nuevo diagnóstico
             </button>
             <button onClick={handlePDF}
+              disabled={isGeneratingPDF}
               className="px-5 py-2 rounded-lg text-sm font-600 flex items-center gap-2 transition-all"
-              style={{ background: '#D4A843', color: '#0F2449', fontFamily: 'var(--font-display)' }}
+              style={{ background: '#D4A843', color: '#0F2449', fontFamily: 'var(--font-display)', opacity: isGeneratingPDF ? 0.7 : 1, cursor: isGeneratingPDF ? 'wait' : 'pointer' }}
               onMouseEnter={e => (e.currentTarget.style.background = '#E5B94A')}
               onMouseLeave={e => (e.currentTarget.style.background = '#D4A843')}>
-              ⬇ Descargar Informe PDF
+              {isGeneratingPDF ? 'Generando PDF...' : '⬇ Descargar Informe PDF'}
             </button>
           </div>
         </div>
@@ -840,11 +851,12 @@ export default function DashboardPage({ results, onRestart }: Props) {
         {/* ── CTA PDF ──────────────────────────────────────────────────────── */}
         <div className="text-center py-6">
           <button onClick={handlePDF}
+            disabled={isGeneratingPDF}
             className="px-8 py-4 rounded-xl font-display font-600 text-base flex items-center gap-2 mx-auto transition-all"
-            style={{ background: '#0F2449', color: 'white' }}
+            style={{ background: '#0F2449', color: 'white', opacity: isGeneratingPDF ? 0.7 : 1, cursor: isGeneratingPDF ? 'wait' : 'pointer' }}
             onMouseEnter={e => (e.currentTarget.style.background = '#1A3D6E')}
             onMouseLeave={e => (e.currentTarget.style.background = '#0F2449')}>
-            ⬇ Descargar Informe Ejecutivo en PDF
+            {isGeneratingPDF ? 'Generando PDF...' : '⬇ Descargar Informe Ejecutivo en PDF'}
           </button>
           <p className="text-xs mt-3" style={{ color: '#9CA3AF' }}>
             El informe incluye portada, resultados completos, gráficas y plan de acción a 12 meses.
