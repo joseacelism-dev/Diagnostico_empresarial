@@ -30,7 +30,7 @@ export default function IntroPage({ onStart }: IntroPageProps) {
         </h1>
 
         <p className="text-lg mb-4 max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
-          Evalúa el nivel de madurez de tu empresa en 10 dimensiones estratégicas, identifica brechas y oportunidades, y recibe un informe ejecutivo profesional con un plan de mejora priorizado.
+          Evalúa el nivel de madurez de tu empresa en 8 dimensiones estratégicas, identifica brechas y oportunidades, y recibe un informe ejecutivo profesional con un plan de mejora priorizado.
         </p>
 
         <p className="text-sm mb-12" style={{ color: 'rgba(255,255,255,0.45)' }}>

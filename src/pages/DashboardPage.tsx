@@ -235,7 +235,7 @@ export default function DashboardPage({ results, onRestart }: Props) {
         <div className="grid grid-cols-2 gap-6 mb-10" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
           <div className="rounded-2xl p-6" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
             <h3 className="font-display font-600 text-base mb-1" style={{ color: '#0F2449' }}>Perfil de Madurez por Área</h3>
-            <p className="text-xs mb-4" style={{ color: '#9CA3AF' }}>Visualización radial de los 10 ejes evaluados</p>
+            <p className="text-xs mb-4" style={{ color: '#9CA3AF' }}>Visualización radial de los ejes evaluados</p>
             <div ref={radarRef} style={{ width: '100%', height: 270 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData}>
@@ -867,15 +867,9 @@ function areaOpportunityBenefit(areaId: string, score: number): string {
     PO: low
       ? 'Documentar y optimizar los procesos operativos reduce costos, mejora la calidad del producto o servicio y permite crecer sin depender de una sola persona clave.'
       : 'Implementar mejora continua en operaciones libera capacidad instalada y reduce el costo por unidad, mejorando la competitividad en precio sin sacrificar margen.',
-    TH: low
-      ? 'Gestionar bien el talento humano reduce la rotación (que puede costar hasta el 200% del salario anual de cada colaborador que se va) y aumenta la productividad del equipo.'
-      : 'Invertir en desarrollo de talento y cultura organizacional atrae mejores perfiles, mejora el engagement y convierte al equipo en una ventaja competitiva sostenible.',
     IT: low
       ? 'Digitalizar los procesos clave reduce costos operativos, elimina errores manuales y libera tiempo del equipo para actividades de mayor valor agregado.'
       : 'Avanzar en transformación digital abre la puerta a modelos de negocio más escalables, análisis predictivo y automatización que multiplican la eficiencia.',
-    CA: low
-      ? 'Implementar gestión de calidad reduce los costos de la no calidad (reprocesos, devoluciones, clientes perdidos) y genera diferenciación real en el mercado.'
-      : 'Obtener certificaciones de calidad abre puertas a clientes corporativos, licitaciones públicas y mercados de exportación que exigen estándares formales.',
     SO: low
       ? 'Adoptar prácticas de sostenibilidad reduce costos operativos (energía, residuos) y posiciona a la empresa favorablemente ante clientes que priorizan proveedores responsables.'
       : 'Comunicar activamente las prácticas ESG se convierte en un diferenciador comercial y mejora el acceso a financiamiento verde e inversión de impacto.',

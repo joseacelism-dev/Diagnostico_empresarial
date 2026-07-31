@@ -36,9 +36,7 @@ export type AreaId =
   | 'GF'
   | 'CM'
   | 'PO'
-  | 'TH'
   | 'IT'
-  | 'CA'
   | 'SO'
   | 'IN';
 

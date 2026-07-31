@@ -47,15 +47,6 @@ export const AREAS: Area[] = [
     lightColor: '#F5EEF8',
   },
   {
-    id: 'TH',
-    name: 'Talento Humano',
-    shortName: 'Talento',
-    description: 'Gestión de personas, desempeño, capacitación y cultura organizacional',
-    weight: 1.1,
-    color: '#7B241C',
-    lightColor: '#FDEDEC',
-  },
-  {
     id: 'IT',
     name: 'Innovación y Transformación Digital',
     shortName: 'Innovación',
@@ -63,15 +54,6 @@ export const AREAS: Area[] = [
     weight: 1.1,
     color: '#1A5F7A',
     lightColor: '#E8F6F9',
-  },
-  {
-    id: 'CA',
-    name: 'Calidad',
-    shortName: 'Calidad',
-    description: 'Estándares de calidad, control, certificaciones y mejora continua',
-    weight: 1.0,
-    color: '#784212',
-    lightColor: '#FEF5E7',
   },
   {
     id: 'SO',

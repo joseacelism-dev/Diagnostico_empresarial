@@ -174,7 +174,7 @@ export async function generatePDF(
   const kpis = [
     { label: 'Puntaje Global', val: `${results.overallScore.toFixed(2)}/5.0` },
     { label: 'Nivel de Madurez', val: `N${results.overallLevel}: ${matInfo.name}` },
-    { label: 'Áreas Evaluadas', val: `${results.areaResults.length} de 10` },
+    { label: 'Áreas Evaluadas', val: `${results.areaResults.length} de ${AREAS.length}` },
     { label: 'Ítems Evaluados', val: `${Object.keys(results.answers).length}` },
   ];
   const kpiW = TW / 4;

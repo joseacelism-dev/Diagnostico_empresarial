@@ -107,9 +107,6 @@ export function getRisks(results: DiagnosticResults): string[] {
   const ga = areaResults.find(r => r.areaId === 'GA');
   if (ga && ga.score < 2.5) risks.push('Riesgo operativo y legal: ausencia de controles internos y cumplimiento regulatorio expone a sanciones y pérdidas patrimoniales.');
 
-  const th = areaResults.find(r => r.areaId === 'TH');
-  if (th && th.score < 2.5) risks.push('Riesgo de talento: alta dependencia de personas clave sin plan de sucesión ni gestión del conocimiento.');
-
   const it = areaResults.find(r => r.areaId === 'IT');
   if (it && it.score < 2.5) risks.push('Riesgo de obsolescencia digital: la baja digitalización reduce la competitividad y aumenta la vulnerabilidad ante disruptores del sector.');
 
@@ -157,9 +154,6 @@ export function getOpportunities(results: DiagnosticResults): string[] {
 
   const it = areaResults.find(r => r.areaId === 'IT');
   if (it && it.score >= 3.0) opps.push('La capacidad de innovación y digitalización puede convertirse en un diferenciador competitivo si se potencia con inversión focalizada.');
-
-  const ca = areaResults.find(r => r.areaId === 'CA');
-  if (ca && ca.score >= 3.5) opps.push('La madurez en gestión de calidad facilita acceder a clientes corporativos y contratos con el Estado que exigen estándares altos.');
 
   const so = areaResults.find(r => r.areaId === 'SO');
   if (so && so.score >= 3.0) opps.push('Las prácticas de sostenibilidad bien desarrolladas pueden usarse como argumento comercial y abrir acceso a financiamiento verde.');
