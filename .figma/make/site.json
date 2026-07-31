@@ -1,5 +1,6 @@
 {
-  "description": "Evaluate business maturity and identify improvement opportunities with a comprehensive diagnostic tool designed for SMEs, generating actionable reports.",
+  "title": "Diagnóstico Empresarial",
+  "description": "Evalúa la madurez empresarial, identifica brechas y genera un informe ejecutivo con plan de mejora priorizado.",
   "robots": {
     "index": false
   },
