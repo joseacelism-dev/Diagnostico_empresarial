@@ -1,0 +1,10 @@
+{
+  "description": "Evaluate business maturity and identify improvement opportunities with a comprehensive diagnostic tool designed for SMEs, generating actionable reports.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
