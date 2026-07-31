@@ -102,14 +102,14 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 px-6 py-10 max-w-2xl mx-auto w-full">
+        <main className="flex-1 px-6 lg:px-10 py-10 max-w-5xl mx-auto w-full">
           {/* Area header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-1">
+          <div className="mb-10 text-center">
+            <div className="flex items-center justify-center gap-3 mb-2">
               <span className="text-xs" style={{ color: '#9CA3AF' }}>Área {areaIdx + 1} de {areaGroups.length}</span>
             </div>
-            <h1 className="font-display font-700 text-2xl mb-2" style={{ color: '#0F2449' }}>{currentArea?.name}</h1>
-            <p className="text-sm leading-relaxed" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
+            <h1 className="font-display font-700 text-4xl mb-3" style={{ color: '#0F2449', fontWeight: 800 }}>{currentArea?.name}</h1>
+            <p className="text-lg leading-relaxed max-w-3xl mx-auto" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
           </div>
 
           {/* Questions */}
@@ -119,17 +119,17 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
               const scale = RESPONSE_SCALES[q.scale];
               return (
                 <div key={q.id} className="rounded-2xl overflow-hidden" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
-                  <div className="px-6 pt-6 pb-4">
-                    <div className="flex items-start gap-3 mb-4">
+                  <div className="px-8 lg:px-10 pt-8 pb-6">
+                    <div className="flex items-start gap-4 mb-6">
                       <span className="font-mono text-xs font-500 mt-0.5 shrink-0" style={{ color: '#9CA3AF' }}>{q.id}</span>
                       <div className="flex-1">
-                        <p className="text-sm font-500 leading-relaxed mb-2" style={{ color: '#1C1C2E' }}>
+                        <p className="text-lg font-500 leading-relaxed mb-3" style={{ color: '#1C1C2E' }}>
                           {q.text}
                           {q.weight === 3 && (
                             <span className="ml-2 px-1.5 py-0.5 rounded text-xs" style={{ background: '#FEF3C7', color: '#92400E' }}>Alta prioridad</span>
                           )}
                         </p>
-                        <p className="text-xs mb-2" style={{ color: '#6B7280' }}>
+                        <p className="text-sm mb-2" style={{ color: '#6B7280' }}>
                           Escala: <span className="font-600" style={{ fontFamily: 'var(--font-display)' }}>{scale.name}</span>
                         </p>
                         <button
@@ -147,18 +147,19 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                     </div>
 
                     {/* Options */}
-                    <div className="grid gap-2" style={{ gridTemplateColumns: scale.options.length === 2 ? 'repeat(2, minmax(0, 1fr))' : 'repeat(auto-fit, minmax(112px, 1fr))' }}>
+                    <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${scale.options.length}, minmax(${scale.options.length === 2 ? '180px' : '132px'}, 1fr))`, overflowX: 'auto', paddingBottom: 2 }}>
                       {scale.options.map(o => (
                         <button
                           key={o.score}
                           onClick={() => onAnswer(q.id, o.score)}
                           title={o.desc}
-                          className="flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all text-center"
+                          className="flex flex-col items-center gap-2 p-4 rounded-xl transition-all text-center"
                           style={{
                             border: selected === o.score ? `2px solid ${scoreColor(o.score)}` : '2px solid #E5E7EB',
                             background: selected === o.score ? `${scoreColor(o.score)}18` : 'white',
+                            minHeight: 112,
                           }}>
-                          <span className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-600"
+                          <span className="w-11 h-11 rounded-full flex items-center justify-center text-base font-600"
                             style={{
                               background: selected === o.score ? scoreColor(o.score) : '#F3F4F6',
                               color: selected === o.score ? 'white' : '#6B7280',
@@ -166,7 +167,7 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                             }}>
                             {o.score}
                           </span>
-                          <span className="text-xs leading-tight" style={{ color: selected === o.score ? scoreColor(o.score) : '#9CA3AF', fontFamily: 'var(--font-display)', fontWeight: selected === o.score ? 600 : 400 }}>
+                          <span className="text-sm leading-tight" style={{ color: selected === o.score ? scoreColor(o.score) : '#9CA3AF', fontFamily: 'var(--font-display)', fontWeight: selected === o.score ? 600 : 400 }}>
                             {o.label}
                           </span>
                         </button>
