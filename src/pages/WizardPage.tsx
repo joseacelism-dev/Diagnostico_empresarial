@@ -102,14 +102,14 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 px-6 lg:px-10 py-10 max-w-5xl mx-auto w-full">
+        <main className="flex-1 px-6 lg:px-8 py-10 w-full">
           {/* Area header */}
           <div className="mb-10 text-center">
             <div className="flex items-center justify-center gap-3 mb-2">
               <span className="text-xs" style={{ color: '#9CA3AF' }}>Área {areaIdx + 1} de {areaGroups.length}</span>
             </div>
             <h1 className="font-display font-700 text-4xl mb-3" style={{ color: '#0F2449', fontWeight: 800 }}>{currentArea?.name}</h1>
-            <p className="text-lg leading-relaxed max-w-3xl mx-auto" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
+            <p className="text-lg leading-relaxed max-w-5xl mx-auto" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
           </div>
 
           {/* Questions */}
@@ -147,7 +147,7 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                     </div>
 
                     {/* Options */}
-                    <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${scale.options.length}, minmax(${scale.options.length === 2 ? '180px' : '132px'}, 1fr))`, overflowX: 'auto', paddingBottom: 2 }}>
+                    <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${scale.options.length}, minmax(${scale.options.length === 2 ? '180px' : '120px'}, 1fr))`, paddingBottom: 2 }}>
                       {scale.options.map(o => (
                         <button
                           key={o.score}
