@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { CompanyInfo, Question } from '../types';
 import { AREAS } from '../data/areas';
-import { OPTION_LABELS } from '../types';
+import { RESPONSE_SCALES } from '../types';
 
 interface Props {
   companyInfo: CompanyInfo;
@@ -115,24 +115,11 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
             <p className="text-sm leading-relaxed" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
           </div>
 
-          {/* Scale legend */}
-          <div className="mb-6 p-4 rounded-xl text-xs" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
-            <p className="font-600 mb-2" style={{ color: '#374151', fontFamily: 'var(--font-display)' }}>Escala de evaluación:</p>
-            <div className="flex flex-wrap gap-3">
-              {OPTION_LABELS.map(o => (
-                <span key={o.score} className="flex items-center gap-1.5">
-                  <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-600 shrink-0"
-                    style={{ background: scoreColor(o.score), color: 'white', fontFamily: 'var(--font-mono)' }}>{o.score}</span>
-                  <span style={{ color: '#4B5563' }}>{o.label}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-
           {/* Questions */}
           <div className="space-y-6 mb-10">
             {currentQs.map((q, qi) => {
               const selected = answers[q.id];
+              const scale = RESPONSE_SCALES[q.scale];
               return (
                 <div key={q.id} className="rounded-2xl overflow-hidden" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
                   <div className="px-6 pt-6 pb-4">
@@ -144,6 +131,9 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                           {q.weight === 3 && (
                             <span className="ml-2 px-1.5 py-0.5 rounded text-xs" style={{ background: '#FEF3C7', color: '#92400E' }}>Alta prioridad</span>
                           )}
+                        </p>
+                        <p className="text-xs mb-2" style={{ color: '#6B7280' }}>
+                          Escala: <span className="font-600" style={{ fontFamily: 'var(--font-display)' }}>{scale.name}</span>
                         </p>
                         <button
                           onClick={() => setShowHelp(showHelp === q.id ? null : q.id)}
@@ -160,8 +150,8 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                     </div>
 
                     {/* Options */}
-                    <div className="grid grid-cols-5 gap-2">
-                      {OPTION_LABELS.map(o => (
+                    <div className="grid gap-2" style={{ gridTemplateColumns: scale.options.length === 2 ? 'repeat(2, minmax(0, 1fr))' : 'repeat(auto-fit, minmax(112px, 1fr))' }}>
+                      {scale.options.map(o => (
                         <button
                           key={o.score}
                           onClick={() => onAnswer(q.id, o.score)}

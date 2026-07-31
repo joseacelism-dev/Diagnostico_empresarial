@@ -1,6 +1,6 @@
 import type { DiagnosticResults, Question } from '../types';
 import { AREAS } from '../data/areas';
-import { MATURITY_LEVELS } from '../types';
+import { MATURITY_LEVELS, RESPONSE_SCALES } from '../types';
 import { getMaturityInfo } from './scoring';
 import html2canvas from 'html2canvas';
 
@@ -12,6 +12,10 @@ const DARK = [28, 28, 46] as const;
 const WHITE = [255, 255, 255] as const;
 
 function rgb(c: readonly number[]) { return c as [number, number, number]; }
+
+function answerLabel(question: Question, score: number): string {
+  return RESPONSE_SCALES[question.scale].options.find(o => o.score === score)?.label ?? `${score}/5`;
+}
 
 export async function generatePDF(
   results: DiagnosticResults,
@@ -368,7 +372,7 @@ export async function generatePDF(
       r.question.rec.responsible,
       r.question.rec.priority,
       `${r.question.rec.months}m`,
-      `${r.score}/5`,
+      answerLabel(r.question, r.score),
     ];
   });
 

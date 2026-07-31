@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import type { DiagnosticResults, Question } from '../types';
 import { AREAS } from '../data/areas';
-import { MATURITY_LEVELS } from '../types';
+import { MATURITY_LEVELS, RESPONSE_SCALES } from '../types';
 import { getTopRecommendations, getStrengths, getRisks, getOpportunities, getMaturityInfo, getApplicableToolRecs } from '../utils/scoring';
 import { ALL_QUESTIONS } from '../data/questions';
 import { generatePDF } from '../utils/pdf';
@@ -44,6 +44,10 @@ function shortLabel(text: string): string {
   t = t.replace(/\?$/, '').trim();
   if (t.length > 68) t = t.slice(0, 65) + '…';
   return t;
+}
+
+function answerLabel(question: Question, score: number): string {
+  return RESPONSE_SCALES[question.scale].options.find(o => o.score === score)?.label ?? `${score}/5`;
 }
 
 function ScoreRing({ score }: { score: number }) {
@@ -388,10 +392,11 @@ export default function DashboardPage({ results, onRestart }: Props) {
                       <ul className="space-y-2">
                         {strongQs.slice(0, 5).map(q => {
                           const s = results.answers[q.id];
+                          const label = answerLabel(q, s);
                           return (
                             <li key={q.id} className="flex items-start gap-2.5">
-                              <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-white font-mono font-600"
-                                style={{ background: s === 5 ? '#047857' : '#059669', fontSize: 9 }}>{s}</span>
+                              <span className="shrink-0 mt-0.5 min-w-6 h-5 px-1.5 rounded-full flex items-center justify-center text-white font-600"
+                                style={{ background: s === 5 ? '#047857' : '#059669', fontSize: 9 }}>{label}</span>
                               <span className="text-xs leading-relaxed" style={{ color: '#374151' }}>{shortLabel(q.text)}</span>
                             </li>
                           );
@@ -498,11 +503,12 @@ export default function DashboardPage({ results, onRestart }: Props) {
                             <ul className="space-y-3">
                               {weakQuestions.slice(0, 6).map((wq: { question: Question; score: number }) => {
                                 const s = wq.score;
+                                const label = answerLabel(wq.question, s);
                                 const dotColor = s <= 1 ? '#B91C1C' : s <= 2 ? '#D97706' : '#B45309';
                                 return (
                                   <li key={wq.question.id} className="flex items-start gap-3">
-                                    <div className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-white font-mono font-600 mt-0.5"
-                                      style={{ background: dotColor, fontSize: 9 }}>{s}</div>
+                                    <div className="shrink-0 min-w-8 h-6 px-1.5 rounded-full flex items-center justify-center text-white font-600 mt-0.5"
+                                      style={{ background: dotColor, fontSize: 9 }}>{label}</div>
                                     <div className="flex-1 min-w-0">
                                       <span className="font-mono text-xs block mb-0.5" style={{ color: '#9CA3AF' }}>{wq.question.id}</span>
                                       <span className="text-xs leading-relaxed block" style={{ color: '#374151' }}>{shortLabel(wq.question.text)}</span>
@@ -510,7 +516,7 @@ export default function DashboardPage({ results, onRestart }: Props) {
                                         {[1,2,3,4,5].map(n => (
                                           <div key={n} className="h-1 flex-1 rounded-full" style={{ background: n <= s ? dotColor : '#E5E7EB' }} />
                                         ))}
-                                        <span className="text-xs ml-1 font-mono" style={{ color: dotColor }}>{s}/5</span>
+                                        <span className="text-xs ml-1" style={{ color: dotColor }}>{label}</span>
                                       </div>
                                     </div>
                                   </li>

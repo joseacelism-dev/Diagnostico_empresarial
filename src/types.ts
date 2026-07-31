@@ -60,12 +60,21 @@ export interface Rec {
   months: '1-3' | '3-6' | '6-12';
 }
 
+export type ResponseScaleId = 'existence' | 'maturity' | 'frequency' | 'compliance';
+
+export interface ResponseOption {
+  score: number;
+  label: string;
+  desc: string;
+}
+
 export interface Question {
   id: string;
   areaId: AreaId;
   text: string;
   help: string;
   weight: 1 | 2 | 3;
+  scale: ResponseScaleId;
   showIf?: (info: CompanyInfo, ans: Record<string, number>) => boolean;
   rec: Rec;
 }
@@ -130,10 +139,42 @@ export const MATURITY_LEVELS = [
   },
 ];
 
-export const OPTION_LABELS = [
-  { score: 1, label: 'No existe', desc: 'Esta práctica no existe en la empresa' },
-  { score: 2, label: 'Informal', desc: 'Existe de manera informal, sin documentación' },
-  { score: 3, label: 'En desarrollo', desc: 'Implementado parcialmente, no es consistente' },
-  { score: 4, label: 'Implementado', desc: 'Implementado y funcionando adecuadamente' },
-  { score: 5, label: 'Fortaleza', desc: 'Fortaleza consolidada que se mejora continuamente' },
-];
+export const RESPONSE_SCALES: Record<ResponseScaleId, { name: string; options: ResponseOption[] }> = {
+  existence: {
+    name: 'Existencia',
+    options: [
+      { score: 1, label: 'No', desc: 'No existe o no se cuenta con este elemento' },
+      { score: 5, label: 'Sí', desc: 'Sí existe o se cuenta con este elemento' },
+    ],
+  },
+  maturity: {
+    name: 'Nivel de madurez',
+    options: [
+      { score: 1, label: 'No existe', desc: 'Esta práctica no existe en la empresa' },
+      { score: 2, label: 'Informal', desc: 'Existe de manera informal' },
+      { score: 3, label: 'Parcial', desc: 'Está parcialmente implementado' },
+      { score: 4, label: 'Implementado', desc: 'Está implementado y funciona adecuadamente' },
+      { score: 5, label: 'Optimizado', desc: 'Está optimizado y en mejora continua' },
+    ],
+  },
+  frequency: {
+    name: 'Frecuencia',
+    options: [
+      { score: 1, label: 'Nunca', desc: 'Nunca ocurre o no se realiza' },
+      { score: 2, label: 'Rara vez', desc: 'Ocurre de forma muy esporádica' },
+      { score: 3, label: 'Algunas veces', desc: 'Ocurre ocasionalmente, sin consistencia' },
+      { score: 4, label: 'Frecuentemente', desc: 'Ocurre con regularidad' },
+      { score: 5, label: 'Siempre', desc: 'Ocurre siempre o de forma sistemática' },
+    ],
+  },
+  compliance: {
+    name: 'Nivel de cumplimiento',
+    options: [
+      { score: 1, label: 'No cumple', desc: 'No cumple con el criterio evaluado' },
+      { score: 2, label: 'Parcialmente', desc: 'Cumple parcialmente' },
+      { score: 3, label: 'En gran medida', desc: 'Cumple en gran medida, con brechas relevantes' },
+      { score: 4, label: 'Completamente', desc: 'Cumple completamente' },
+      { score: 5, label: 'Supera', desc: 'Supera las buenas prácticas' },
+    ],
+  },
+};
