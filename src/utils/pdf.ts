@@ -22,6 +22,11 @@ function fileSafeName(value: string): string {
   return cleaned || 'Empresa';
 }
 
+function cleanText(value: string | undefined, fallback = 'No informado'): string {
+  const cleaned = value?.trim();
+  return cleaned || fallback;
+}
+
 export async function generatePDF(
   results: DiagnosticResults,
   applicableQs: Question[],
@@ -122,7 +127,7 @@ export async function generatePDF(
   doc.text('EMPRESA EVALUADA', ML + 8, 160);
   setFont('bold', 16);
   setColor(WHITE);
-  const name = results.companyInfo.nombre || 'Sin nombre';
+  const name = cleanText(results.companyInfo.nombre, 'Sin nombre');
   doc.text(name.length > 35 ? name.slice(0, 32) + '...' : name, ML + 8, 172);
 
   setFont('normal', 9);
@@ -366,6 +371,55 @@ export async function generatePDF(
   doc.text('Recomendaciones ordenadas por prioridad e impacto. Enfóquese en las acciones de Prioridad Alta en los primeros 3 meses.', ML, y);
   y += 8;
 
+  topRecs.forEach((r, i) => {
+    const area = AREAS.find(a => a.id === r.question.areaId)!;
+    const prioColor: Record<string, [number, number, number]> = {
+      Alta: [185, 28, 28],
+      Media: [217, 119, 6],
+      Baja: [4, 120, 87],
+    };
+    const actionLines = doc.splitTextToSize(r.question.rec.action, TW - 18);
+    const meta = [
+      `Responsable: ${r.question.rec.responsible}`,
+      `Plazo: ${r.question.rec.months} meses`,
+      `Situacion actual: ${answerLabel(r.question, r.score)}`,
+    ].join('  |  ');
+    const metaLines = doc.splitTextToSize(meta, TW - 18);
+    const cardH = Math.max(26, 18 + actionLines.length * 4.4 + metaLines.length * 3.8);
+
+    if (y + cardH > H - 20) {
+      addPage();
+      pageFooter(doc.getNumberOfPages());
+      y = MT;
+    }
+
+    fillRect(ML, y, TW, cardH, i % 2 === 0 ? [248, 249, 250] : WHITE);
+    doc.setDrawColor(229, 231, 235);
+    doc.setLineWidth(0.25);
+    doc.rect(ML, y, TW, cardH);
+    fillRect(ML, y, 4, cardH, prioColor[r.question.rec.priority]);
+
+    setFont('bold', 8);
+    setColor(prioColor[r.question.rec.priority]);
+    doc.text(`#${i + 1}`, ML + 8, y + 7);
+    doc.text(r.question.rec.priority, W - MR - 26, y + 7);
+
+    setFont('bold', 8);
+    setColor(NAVY);
+    doc.text(`${r.question.id} - ${area.shortName}`, ML + 22, y + 7);
+
+    setFont('bold', 8.5);
+    setColor(DARK);
+    doc.text(actionLines, ML + 8, y + 14);
+
+    setFont('normal', 7.2);
+    setColor(MID_GRAY);
+    doc.text(metaLines, ML + 8, y + 16 + actionLines.length * 4.4);
+
+    y += cardH + 4;
+  });
+
+  if (false) {
   const recRows = topRecs.map((r, i) => {
     const area = AREAS.find(a => a.id === r.question.areaId)!;
     const prioColor: Record<string, [number, number, number]> = { Alta: [185, 28, 28], Media: [217, 119, 6], Baja: [4, 120, 87] };
@@ -411,6 +465,8 @@ export async function generatePDF(
   });
 
   // ── PAGE: 12-MONTH PLAN ─────────────────────────────────────────────────
+  }
+
   addPage();
   const planPage = doc.getNumberOfPages();
   pageFooter(planPage);

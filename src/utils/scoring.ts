@@ -5,10 +5,11 @@ import { TOOL_RECS } from '../data/toolRecommendations';
 import type { ToolRec } from '../data/toolRecommendations';
 
 export function getMaturityLevel(score: number): number {
-  for (const level of MATURITY_LEVELS) {
-    if (score >= level.range[0] && score <= level.range[1]) return level.level;
-  }
-  return score < 1.9 ? 1 : 5;
+  if (score <= 1.8) return 1;
+  if (score <= 2.6) return 2;
+  if (score <= 3.4) return 3;
+  if (score <= 4.2) return 4;
+  return 5;
 }
 
 export function getMaturityInfo(score: number) {
