@@ -17,7 +17,7 @@ export default function IntroPage({ onStart }: IntroPageProps) {
         <img
           src={logoJa}
           alt="Logo"
-          className="h-16 w-auto object-contain"
+          className="h-24 w-auto object-contain"
           style={{ filter: 'drop-shadow(0 0 18px rgba(229,185,74,0.34))' }}
         />
         <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Diagnóstico Empresarial</span>
