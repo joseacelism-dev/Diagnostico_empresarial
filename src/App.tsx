@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { CompanyInfo, DiagnosticResults } from './types';
 import { ALL_QUESTIONS } from './data/questions';
 import { computeResults } from './utils/scoring';
@@ -14,6 +14,10 @@ export default function App() {
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [results, setResults] = useState<DiagnosticResults | null>(null);
+
+  useEffect(() => {
+    document.title = 'Diagnóstico Empresarial';
+  }, []);
 
   // Compute applicable questions based on company profile
   const applicableQuestions = companyInfo
