@@ -31,7 +31,6 @@ export async function generatePDF(
   opportunities: string[],
   radarRef: React.RefObject<HTMLDivElement | null>,
   barRef: React.RefObject<HTMLDivElement | null>,
-  previewWindow?: Window | null,
 ): Promise<{ url: string; filename: string }> {
   const jsPDF = (await import('jspdf')).default;
   const { autoTable } = await import('jspdf-autotable');
@@ -517,17 +516,17 @@ export async function generatePDF(
   const blob = doc.output('blob');
   const url = URL.createObjectURL(blob);
 
-  if (previewWindow && !previewWindow.closed) {
-    previewWindow.location.href = url;
+  try {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (error) {
+    console.warn('Automatic PDF download was blocked. Use the visible PDF link instead.', error);
   }
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.rel = 'noopener';
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
 
   return { url, filename };
 }

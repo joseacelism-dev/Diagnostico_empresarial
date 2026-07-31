@@ -167,20 +167,15 @@ export default function DashboardPage({ results, onRestart }: Props) {
 
   async function handlePDF() {
     if (isGeneratingPDF) return;
-    const previewWindow = window.open('', '_blank');
-    if (previewWindow) {
-      previewWindow.document.write('<p style="font-family: Arial, sans-serif; padding: 24px;">Generando PDF...</p>');
-    }
     setIsGeneratingPDF(true);
     try {
-      const generated = await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef, previewWindow);
+      const generated = await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef);
       setPdfDownload(current => {
         if (current?.url) URL.revokeObjectURL(current.url);
         return generated;
       });
     } catch (error) {
       console.error('Error generating PDF', error);
-      if (previewWindow && !previewWindow.closed) previewWindow.close();
       window.alert('No se pudo generar el PDF. Intenta nuevamente o revisa si el navegador bloqueó la descarga.');
     } finally {
       setIsGeneratingPDF(false);
