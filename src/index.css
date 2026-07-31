@@ -60,6 +60,87 @@ h1, h2, h3, h4, h5, h6 {
 .recharts-polar-grid-angle line { stroke: #E5E7EB; }
 .recharts-polar-grid-concentric polygon { fill: none; stroke: #E5E7EB; }
 
+.intro-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, transparent 0%, rgba(255,255,255,0.08) 48%, transparent 54%),
+    linear-gradient(28deg, transparent 12%, rgba(229,185,74,0.08) 44%, transparent 50%);
+  opacity: 0.7;
+}
+
+.intro-sparkle {
+  position: absolute;
+  z-index: 1;
+  width: 86px;
+  height: 86px;
+  pointer-events: none;
+  opacity: 0.78;
+}
+
+.intro-sparkle::before,
+.intro-sparkle::after {
+  content: '';
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(90deg, transparent, rgba(255,235,168,0.95), transparent);
+  border-radius: 999px;
+}
+
+.intro-sparkle::before {
+  width: 86px;
+  height: 2px;
+}
+
+.intro-sparkle::after {
+  width: 2px;
+  height: 86px;
+}
+
+.intro-sparkle-a {
+  top: 18%;
+  left: 12%;
+  transform: rotate(24deg) scale(0.7);
+}
+
+.intro-sparkle-b {
+  right: 15%;
+  top: 31%;
+  transform: rotate(-18deg) scale(0.55);
+}
+
+.intro-sparkle-c {
+  right: 23%;
+  bottom: 18%;
+  transform: rotate(32deg) scale(0.42);
+  opacity: 0.55;
+}
+
+.intro-ray {
+  position: absolute;
+  z-index: 1;
+  width: 360px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(229,185,74,0.5), rgba(255,255,255,0.24), transparent);
+}
+
+.intro-ray-a {
+  top: 26%;
+  left: -40px;
+  transform: rotate(-18deg);
+}
+
+.intro-ray-b {
+  right: -30px;
+  bottom: 24%;
+  transform: rotate(-18deg);
+  opacity: 0.7;
+}
+
 /* Print styles for PDF generation */
 @media print {
   body { background: white; }
