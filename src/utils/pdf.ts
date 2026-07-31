@@ -31,7 +31,8 @@ export async function generatePDF(
   opportunities: string[],
   radarRef: React.RefObject<HTMLDivElement | null>,
   barRef: React.RefObject<HTMLDivElement | null>,
-) {
+  previewWindow?: Window | null,
+): Promise<{ url: string; filename: string }> {
   const jsPDF = (await import('jspdf')).default;
   const { autoTable } = await import('jspdf-autotable');
 
@@ -512,7 +513,23 @@ export async function generatePDF(
   const nLines = doc.splitTextToSize(note, TW - 8);
   doc.text(nLines, ML + 4, y + 17);
 
-  doc.save(`Diagnostico_Madurez_${fileSafeName(results.companyInfo.nombre)}_${new Date().getFullYear()}.pdf`);
+  const filename = `Diagnostico_Madurez_${fileSafeName(results.companyInfo.nombre)}_${new Date().getFullYear()}.pdf`;
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+
+  if (previewWindow && !previewWindow.closed) {
+    previewWindow.location.href = url;
+  }
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.rel = 'noopener';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  return { url, filename };
 }
 
 function sectorLabel(sector: string): string {

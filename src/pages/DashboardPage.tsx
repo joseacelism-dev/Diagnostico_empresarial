@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, Cell, Tooltip, CartesianGrid,
@@ -104,6 +104,7 @@ export default function DashboardPage({ results, onRestart }: Props) {
   const barRef = useRef<HTMLDivElement>(null);
   const [expandedGap, setExpandedGap] = useState<string | null>(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [pdfDownload, setPdfDownload] = useState<{ url: string; filename: string } | null>(null);
 
   const applicableQs = ALL_QUESTIONS.filter(q => results.answers[q.id] !== undefined);
   const topRecs = getTopRecommendations(results, applicableQs, 15);
@@ -158,13 +159,28 @@ export default function DashboardPage({ results, onRestart }: Props) {
     .sort((a, b) => b.score - a.score)
     .map(ar => ({ name: AREAS.find(a => a.id === ar.areaId)!.shortName, score: ar.score }));
 
+  useEffect(() => {
+    return () => {
+      if (pdfDownload?.url) URL.revokeObjectURL(pdfDownload.url);
+    };
+  }, [pdfDownload?.url]);
+
   async function handlePDF() {
     if (isGeneratingPDF) return;
+    const previewWindow = window.open('', '_blank');
+    if (previewWindow) {
+      previewWindow.document.write('<p style="font-family: Arial, sans-serif; padding: 24px;">Generando PDF...</p>');
+    }
     setIsGeneratingPDF(true);
     try {
-      await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef);
+      const generated = await generatePDF(results, applicableQs, topRecs, strengths, risks, opportunities, radarRef, barRef, previewWindow);
+      setPdfDownload(current => {
+        if (current?.url) URL.revokeObjectURL(current.url);
+        return generated;
+      });
     } catch (error) {
       console.error('Error generating PDF', error);
+      if (previewWindow && !previewWindow.closed) previewWindow.close();
       window.alert('No se pudo generar el PDF. Intenta nuevamente o revisa si el navegador bloqueó la descarga.');
     } finally {
       setIsGeneratingPDF(false);
@@ -197,6 +213,18 @@ export default function DashboardPage({ results, onRestart }: Props) {
               onMouseLeave={e => (e.currentTarget.style.background = '#D4A843')}>
               {isGeneratingPDF ? 'Generando PDF...' : '⬇ Descargar Informe PDF'}
             </button>
+            {pdfDownload && (
+              <a
+                href={pdfDownload.url}
+                download={pdfDownload.filename}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg text-sm font-600 transition-all"
+                style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.22)', color: 'white', fontFamily: 'var(--font-display)' }}
+              >
+                Abrir PDF
+              </a>
+            )}
           </div>
         </div>
       </header>
@@ -861,6 +889,17 @@ export default function DashboardPage({ results, onRestart }: Props) {
           <p className="text-xs mt-3" style={{ color: '#9CA3AF' }}>
             El informe incluye portada, resultados completos, gráficas y plan de acción a 12 meses.
           </p>
+          {pdfDownload && (
+            <div className="mt-4 inline-flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: '#EEF2F8', border: '1px solid #D5E0EE' }}>
+              <span className="text-sm" style={{ color: '#1A3D6E' }}>PDF listo.</span>
+              <a href={pdfDownload.url} download={pdfDownload.filename} className="text-sm font-600 underline" style={{ color: '#0F2449', fontFamily: 'var(--font-display)' }}>
+                Descargar ahora
+              </a>
+              <a href={pdfDownload.url} target="_blank" rel="noopener noreferrer" className="text-sm font-600 underline" style={{ color: '#0F2449', fontFamily: 'var(--font-display)' }}>
+                Abrir en pestaña
+              </a>
+            </div>
+          )}
         </div>
       </main>
     </div>
