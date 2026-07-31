@@ -25,6 +25,8 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
   const currentGroup = areaGroups[areaIdx];
   const currentArea = currentGroup?.area;
   const currentQs = currentGroup?.questions ?? [];
+  const areaColor = currentArea?.color ?? '#0F2449';
+  const areaLightColor = currentArea?.lightColor ?? '#EEF2F8';
 
   const totalAnswered = Object.keys(answers).length;
   const progress = (totalAnswered / questions.length) * 100;
@@ -60,7 +62,7 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
               {totalAnswered}/{questions.length} respondidas
             </span>
             <div className="w-32 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.15)' }}>
-              <div className="h-full rounded-full transition-all duration-500" style={{ width: `${progress}%`, background: '#D4A843' }} />
+              <div className="h-full rounded-full transition-all duration-500" style={{ width: `${progress}%`, background: areaColor }} />
             </div>
             <span className="text-xs font-mono font-500" style={{ color: '#E5B94A' }}>{Math.round(progress)}%</span>
           </div>
@@ -104,11 +106,11 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
         {/* Main content */}
         <main className="flex-1 px-6 lg:px-8 py-10 w-full">
           {/* Area header */}
-          <div className="mb-10 text-center">
+          <div className="mb-10 text-center rounded-2xl px-8 py-8" style={{ background: areaLightColor, border: `1px solid ${areaColor}22` }}>
             <div className="flex items-center justify-center gap-3 mb-2">
-              <span className="text-xs" style={{ color: '#9CA3AF' }}>Área {areaIdx + 1} de {areaGroups.length}</span>
+              <span className="text-xs font-600" style={{ color: areaColor, fontFamily: 'var(--font-display)' }}>Área {areaIdx + 1} de {areaGroups.length}</span>
             </div>
-            <h1 className="font-display font-700 text-4xl mb-3" style={{ color: '#0F2449', fontWeight: 800 }}>{currentArea?.name}</h1>
+            <h1 className="font-display font-700 text-4xl mb-3" style={{ color: areaColor, fontWeight: 800 }}>{currentArea?.name}</h1>
             <p className="text-lg leading-relaxed max-w-5xl mx-auto" style={{ color: '#6B7280' }}>{currentArea?.description}</p>
           </div>
 
@@ -118,10 +120,10 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
               const selected = answers[q.id];
               const scale = RESPONSE_SCALES[q.scale];
               return (
-                <div key={q.id} className="rounded-2xl overflow-hidden" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
+                <div key={q.id} className="rounded-2xl overflow-hidden" style={{ background: 'white', border: `1px solid ${areaColor}24`, boxShadow: `inset 6px 0 0 ${areaColor}` }}>
                   <div className="px-8 lg:px-10 pt-8 pb-6">
                     <div className="flex items-start gap-4 mb-6">
-                      <span className="font-mono text-xs font-500 mt-0.5 shrink-0" style={{ color: '#9CA3AF' }}>{q.id}</span>
+                      <span className="font-mono text-xs font-500 mt-0.5 shrink-0 px-2 py-1 rounded" style={{ color: areaColor, background: areaLightColor }}>{q.id}</span>
                       <div className="flex-1">
                         <p className="text-lg font-500 leading-relaxed mb-3" style={{ color: '#1C1C2E' }}>
                           {q.text}
@@ -135,11 +137,11 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                         <button
                           onClick={() => setShowHelp(showHelp === q.id ? null : q.id)}
                           className="text-xs flex items-center gap-1 transition-opacity opacity-60 hover:opacity-100"
-                          style={{ color: '#1A3D6E' }}>
+                          style={{ color: areaColor }}>
                           <span>{showHelp === q.id ? '▲' : '▼'}</span> {showHelp === q.id ? 'Ocultar ayuda' : 'Ver orientación'}
                         </button>
                         {showHelp === q.id && (
-                          <div className="mt-3 p-3 rounded-lg text-xs leading-relaxed" style={{ background: '#F0F4FA', color: '#374151', border: '1px solid #D5E0EE' }}>
+                          <div className="mt-3 p-3 rounded-lg text-xs leading-relaxed" style={{ background: areaLightColor, color: '#374151', border: `1px solid ${areaColor}22` }}>
                             {q.help}
                           </div>
                         )}
