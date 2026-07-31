@@ -13,7 +13,7 @@ export default function IntroPage({ onStart }: IntroPageProps) {
       <div className="intro-ray intro-ray-a" />
       <div className="intro-ray intro-ray-b" />
 
-      <header className="relative z-10 px-8 py-6 flex items-center justify-between">
+      <header className="relative z-10 px-8 py-4 flex items-center justify-between">
         <img
           src={logoJa}
           alt="Logo"
@@ -23,17 +23,17 @@ export default function IntroPage({ onStart }: IntroPageProps) {
         <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Diagnóstico Empresarial</span>
       </header>
 
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
-        <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-600 uppercase tracking-widest" style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.3)', color: '#E5B94A' }}>
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-6 pt-8 pb-8 text-center">
+        <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full text-xs font-600 uppercase tracking-widest" style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.3)', color: '#E5B94A' }}>
           <span>◆</span> Herramienta Profesional de Diagnóstico
         </div>
 
-        <h1 className="font-display font-700 mb-6 leading-tight" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', color: 'white', maxWidth: 720 }}>
+        <h1 className="font-display font-700 mb-5 leading-tight" style={{ fontSize: 'clamp(2.1rem, 4.7vw, 3.35rem)', color: 'white', maxWidth: 760 }}>
           Diagnóstico Integral de<br />
           <span style={{ color: '#E5B94A' }}>Madurez Empresarial</span>
         </h1>
 
-        <p className="text-lg mb-12 max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
+        <p className="text-lg mb-8 max-w-2xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
           Evalúa el nivel de madurez de tu empresa en 8 dimensiones estratégicas, identifica brechas y oportunidades, y recibe un informe ejecutivo profesional con un plan de mejora priorizado.
         </p>
 
@@ -48,14 +48,14 @@ export default function IntroPage({ onStart }: IntroPageProps) {
           <span className="ml-2">→</span>
         </button>
 
-        <div className="mt-20 grid grid-cols-1 gap-6 max-w-3xl w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+        <div className="mt-10 grid grid-cols-1 gap-4 max-w-3xl w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
           {[
             { icon: '◆', title: '8 Dimensiones', desc: 'Evaluación integral de las áreas críticas del negocio' },
             { icon: '✦', title: 'Adaptativo', desc: 'El diagnóstico se adapta al sector, tamaño y perfil de tu empresa' },
             { icon: '◈', title: 'Informe PDF', desc: 'Reporte ejecutivo descargable elaborado al nivel de una firma consultora' },
           ].map(f => (
-            <div key={f.title} className="rounded-xl p-6 text-left" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div className="text-2xl mb-3" style={{ color: '#E5B94A' }}>{f.icon}</div>
+            <div key={f.title} className="rounded-xl p-5 text-left" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="text-xl mb-2" style={{ color: '#E5B94A' }}>{f.icon}</div>
               <h3 className="font-display font-600 text-white mb-2 text-sm">{f.title}</h3>
               <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{f.desc}</p>
             </div>
