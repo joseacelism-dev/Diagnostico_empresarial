@@ -66,79 +66,69 @@ h1, h2, h3, h4, h5, h6 {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(118deg, transparent 0%, rgba(255,255,255,0.08) 48%, transparent 54%),
-    linear-gradient(28deg, transparent 12%, rgba(229,185,74,0.08) 44%, transparent 50%);
-  opacity: 0.7;
+    radial-gradient(circle at 50% 32%, rgba(0,196,235,0.16), transparent 32%),
+    linear-gradient(118deg, transparent 0%, rgba(255,255,255,0.055) 48%, transparent 54%);
+  opacity: 0.9;
 }
 
-.intro-sparkle {
-  position: absolute;
-  z-index: 1;
-  width: 86px;
-  height: 86px;
-  pointer-events: none;
-  opacity: 0.78;
-}
-
-.intro-sparkle::before,
-.intro-sparkle::after {
+.intro-page::after {
   content: '';
   position: absolute;
-  inset: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(90deg, transparent, rgba(255,235,168,0.95), transparent);
-  border-radius: 999px;
+  inset: auto 0 0 0;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(3,10,24,0.38));
 }
 
-.intro-sparkle::before {
-  width: 86px;
-  height: 2px;
-}
-
-.intro-sparkle::after {
-  width: 2px;
-  height: 86px;
-}
-
-.intro-sparkle-a {
-  top: 18%;
-  left: 12%;
-  transform: rotate(24deg) scale(0.7);
-}
-
-.intro-sparkle-b {
-  right: 15%;
-  top: 31%;
-  transform: rotate(-18deg) scale(0.55);
-}
-
-.intro-sparkle-c {
-  right: 23%;
-  bottom: 18%;
-  transform: rotate(32deg) scale(0.42);
-  opacity: 0.55;
-}
-
-.intro-ray {
+.intro-glow {
   position: absolute;
   z-index: 1;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(10px);
+}
+
+.intro-glow-main {
+  width: min(620px, 82vw);
+  height: min(620px, 82vw);
+  left: 50%;
+  top: 17%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(45,90,158,0.34), rgba(0,196,235,0.08) 38%, transparent 68%);
+}
+
+.intro-glow-accent {
   width: 360px;
+  height: 360px;
+  right: 8%;
+  top: 8%;
+  background: radial-gradient(circle, rgba(229,185,74,0.12), transparent 68%);
+  opacity: 0.8;
+}
+
+.intro-accent-line {
+  position: absolute;
+  z-index: 1;
+  left: 12%;
+  right: 12%;
+  top: 20%;
   height: 1px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(229,185,74,0.5), rgba(255,255,255,0.24), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,196,235,0.34), rgba(229,185,74,0.28), transparent);
+  transform: rotate(-7deg);
 }
 
-.intro-ray-a {
-  top: 26%;
-  left: -40px;
-  transform: rotate(-18deg);
+.intro-kicker {
+  color: #E5B94A;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(229,185,74,0.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-.intro-ray-b {
-  right: -30px;
-  bottom: 24%;
-  transform: rotate(-18deg);
-  opacity: 0.7;
+.intro-feature {
+  background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.11);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 /* Print styles for PDF generation */
