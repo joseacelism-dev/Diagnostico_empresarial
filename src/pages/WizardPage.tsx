@@ -106,9 +106,6 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
           {/* Area header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-1">
-              <span className="px-2 py-0.5 rounded text-xs font-mono font-500" style={{ background: currentArea?.lightColor, color: currentArea?.color }}>
-                {currentArea?.id}
-              </span>
               <span className="text-xs" style={{ color: '#9CA3AF' }}>Área {areaIdx + 1} de {areaGroups.length}</span>
             </div>
             <h1 className="font-display font-700 text-2xl mb-2" style={{ color: '#0F2449' }}>{currentArea?.name}</h1>
