@@ -13,7 +13,7 @@ export default function IntroPage({ onStart }: IntroPageProps) {
       <div className="intro-ray intro-ray-a" />
       <div className="intro-ray intro-ray-b" />
 
-      <header className="relative z-10 px-8 py-4 flex items-center justify-between">
+      <header className="relative z-10 px-8 py-3 flex items-center justify-between">
         <img
           src={logoJa}
           alt="Logo"
@@ -23,17 +23,17 @@ export default function IntroPage({ onStart }: IntroPageProps) {
         <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Diagnóstico Empresarial</span>
       </header>
 
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-6 pt-8 pb-8 text-center">
-        <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 rounded-full text-xs font-600 uppercase tracking-widest" style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.3)', color: '#E5B94A' }}>
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-6 pt-0 pb-6 -mt-5 text-center">
+        <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-xs font-600 uppercase tracking-widest" style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.3)', color: '#E5B94A' }}>
           <span>◆</span> Herramienta Profesional de Diagnóstico
         </div>
 
-        <h1 className="font-display font-700 mb-5 leading-tight" style={{ fontSize: 'clamp(2.1rem, 4.7vw, 3.35rem)', color: 'white', maxWidth: 760 }}>
+        <h1 className="font-display font-700 mb-4 leading-tight" style={{ fontSize: 'clamp(2.1rem, 4.7vw, 3.35rem)', color: 'white', maxWidth: 760 }}>
           Diagnóstico Integral de<br />
           <span style={{ color: '#E5B94A' }}>Madurez Empresarial</span>
         </h1>
 
-        <p className="text-lg mb-8 max-w-2xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
+        <p className="text-lg mb-6 max-w-2xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
           Evalúa el nivel de madurez de tu empresa en 8 dimensiones estratégicas, identifica brechas y oportunidades, y recibe un informe ejecutivo profesional con un plan de mejora priorizado.
         </p>
 
@@ -48,7 +48,7 @@ export default function IntroPage({ onStart }: IntroPageProps) {
           <span className="ml-2">→</span>
         </button>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 max-w-3xl w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+        <div className="mt-7 grid grid-cols-1 gap-4 max-w-3xl w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
           {[
             { icon: '◆', title: '8 Dimensiones', desc: 'Evaluación integral de las áreas críticas del negocio' },
             { icon: '✦', title: 'Adaptativo', desc: 'El diagnóstico se adapta al sector, tamaño y perfil de tu empresa' },
