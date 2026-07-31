@@ -12,6 +12,10 @@ interface Props {
   onBack: () => void;
 }
 
+function questionNumber(id: string): string {
+  return id.replace(/\D/g, '');
+}
+
 export default function WizardPage({ companyInfo, questions, answers, onAnswer, onComplete, onBack }: Props) {
   // Group questions by area
   const areaGroups = AREAS.map(area => ({
@@ -123,7 +127,7 @@ export default function WizardPage({ companyInfo, questions, answers, onAnswer, 
                 <div key={q.id} className="rounded-2xl overflow-hidden" style={{ background: 'white', border: `1px solid ${areaColor}24`, boxShadow: `inset 6px 0 0 ${areaColor}` }}>
                   <div className="px-8 lg:px-10 pt-8 pb-6">
                     <div className="flex items-start gap-4 mb-6">
-                      <span className="font-mono text-xs font-500 mt-0.5 shrink-0 px-2 py-1 rounded" style={{ color: areaColor, background: areaLightColor }}>{q.id}</span>
+                      <span className="font-mono text-xs font-500 mt-0.5 shrink-0 px-2 py-1 rounded" style={{ color: areaColor, background: areaLightColor }}>{questionNumber(q.id)}</span>
                       <div className="flex-1">
                         <p className="text-lg font-500 leading-relaxed mb-3" style={{ color: '#1C1C2E' }}>
                           {q.text}
